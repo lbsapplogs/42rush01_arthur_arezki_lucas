@@ -1,20 +1,28 @@
-ft_valid_input(char *str)
+int ft_strlen(char *str);
+
+int	ft_valid_input(char *str)
 {
     int i;
-	int	num;
+	int	len;
 
     i = 0;
+	len = ft_strlen(str);
+	// Check 1: length not 31 (16 digits + 15 spaces)
+	if (len != 31)
+		return(0); // define error output
     while (str[i] != '\0')
     {
-        if (!((str[i] >= '0' && str[i] <= 9) || str[i] == 32))
+        // Check 2: not digit or whitespace
+		if (!((str[i] >= '1' && str[i] <= '4') || str[i] == 32))
         	return (0); 
-		if (i % 2 != 0 && str[i] != 32)
+		// Check 3: odd slots not whitespace
+		else if (i % 2 != 0 && str[i] != 32)
             return (0);
-        else if (i % 2 == 0 && (str[i] >= '0' && str[i] <= 9))
-                num = str[i] + '0';
+        // Check 4: even slots NOT digit
+		else if (i % 2 == 0 && !(str[i] >= '0' && str[i] <= 9))
+            return (0);
+		else
+			i++;
     }
-    else
-        write(1, " ", 1);
-
-    i++;
+    return (1);
 }
