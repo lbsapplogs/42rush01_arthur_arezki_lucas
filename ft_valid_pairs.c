@@ -23,27 +23,24 @@ int	**ft_pairscheck(char *str)
 {
 	int	i;
 	int	j;
+	int	k;
 	int	pos1;
 	int	pos2;
-	int	**allpairs;
-
-	i = 0;
-	j = 0;
-	
-	// 
+	int	allpairs[16];
 
 
-	// Step 1: check pairs
+
+	// Step 1: fill array
 	i = 0;// which row/column
 	j = 0;// where in the row/column
-	
-	
+	k = 0;// where in allpairs
+	pos1 = i + j;
+	pos2 = i + 4 + j;
 	while (i < 4 && j < 4)
 	{
-		pos1 = i + j;
-		pos2 = i + 4 + j;
-
-		str[pos]
+		while (i < 2 && j < 4)	
+		{
+			allpairs[pos]str[pos1]
 	}
 
 	// How do I check the pairs?? 
