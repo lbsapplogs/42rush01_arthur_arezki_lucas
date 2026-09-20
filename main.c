@@ -6,7 +6,7 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/20 14:27:12 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 14:58:13 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,59 @@ int	ft_validcombinations(int *num_inputs)
 	return (1);
 }
 
+int	**ft_emptygrid(void) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
+{
+	int	grid[4][4];
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			grid[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	return (grid);
+}
+
+void	ft_fillrow(int *row)
+
+void	ft_firstfill(int *num_inputs, int **grid)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+	
+	j = 0;
+	while (j < 16)
+	{
+		i = 0;
+		k = j + i;
+		while (i < 4)
+		{
+			if (num_inputs[k] == 4)
+
+				
+
+			
+			i++;
+		}
+		j++;
+	}
+}
+
 int	main(int argc, char **argv[])
 {
 	int	num_input[16];
+	int	**grid;
 	
+	grid = ft_emptygrid(); // **********do I need to malloc ???*************
 	// count parameters
 	if (argc != 2)
 		return (1);
@@ -161,6 +210,10 @@ int	main(int argc, char **argv[])
 		return (1);
 	
 	// valid combinations 
+	if (ft_validcombinations(num_input) != 1)
+		return (1);
 	 
-	
+	// fill grid with known values
+
+
 }
