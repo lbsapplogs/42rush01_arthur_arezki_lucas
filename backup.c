@@ -11,20 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
-
-void	ft_putstr(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] != '\0')
-    {
-        write(1, &str[i], 1);
-        i++;
-    }
-}
 
 int	ft_strlen(char *str)
 {
@@ -69,7 +56,7 @@ int	ft_valid_input(char *str, int *num_input)
     return (1);
 }
 
-int	valid_pairs(int a, int b)
+int	ft_valid_pairs(int a, int b)
 {
 	int	i;
 	int	validpairs[5][2];
@@ -106,14 +93,14 @@ int	ft_pairscheck(int *num_input)
 	// Check column pairs
 	while (i < 4 && valid_flag == 1)
 	{
-		valid_flag *= valid_pairs(num_input[i], num_input[i + 4]);
+		valid_flag *= ft_valid_pairs(num_input[i], num_input[i + 4]);
 		i++;	
 	}
 	// Check row pairs
 	i += 4;
 	while (i < 12 && valid_flag == 1)
 	{
-		valid_flag *= valid_pairs(num_input[i], num_input[i + 4]);
+		valid_flag *= ft_valid_pairs(num_input[i], num_input[i + 4]);
 		i++;	
 	}
 	return (valid_flag); 
@@ -254,6 +241,83 @@ int	ft_firsfill(int grid[4][4], int *num_input)
 	return (1);
 }
 
+int	ft_countvisible(int grid[4][4], int side, int item)
+{
+	int	dist;
+	int	value;
+	int	tallest;
+	int	visible;
+
+	dist = 0;
+	tallest = 0;
+	visible = 0;
+	while (dist < 4)
+	{
+		if (side == 0)
+			value = grid[dist][item];
+		else if (side == 1)
+			value = grid[3 - dist][item];
+		else if (side == 2)
+			value = grid[item][dist];
+		else
+			value = grid[item][3 - dist];
+		if (value > tallest)
+		{
+			tallest = value;
+			visible++;
+		}
+		dist++;
+	}
+	return (visible);
+}
+
+int	ft_validgrid(int grid[4][4], int *num_input)
+{
+	int	side;
+	int	item;
+
+	side = 0;
+	while (side < 4)
+	{
+		item = 0;
+		while (item < 4)
+		{
+			if (ft_countvisible(grid, side, item)
+				!= num_input[4 * side + item])
+				return (0);
+			item++;
+		}
+		side++;
+	}
+	return (1);
+}
+
+int	ft_solvegrid(int grid[4][4], int *num_input, int cell)
+{
+	int	r;
+	int	c;
+	int	value;
+
+	if (cell == 16)
+		return (ft_validgrid(grid, num_input));
+	r = cell / 4;
+	c = cell % 4;
+	if (grid[r][c] != 0)
+		return (ft_solvegrid(grid, num_input, cell + 1));
+	value = 1;
+	while (value <= 4)
+	{
+		if (ft_place(grid, r, c, value) == 1)
+		{
+			if (ft_solvegrid(grid, num_input, cell + 1) == 1)
+				return (1);
+			grid[r][c] = 0;
+		}
+		value++;
+	}
+	return (0);
+}
+
 void	ft_printgrid(int grid[4][4])
 {
 	int		r;
@@ -282,34 +346,28 @@ int	main(int argc, char **argv)
 	int	num_input[16];
 	int	grid[4][4];
 	
-	
-	ft_emptygrid(grid); // **********do I need to malloc ???*************
+	ft_emptygrid(grid); 
 	// count parameters
 	if (argc != 2)
 		return (1);
-
 	// valid parameters
 	if (ft_valid_input(argv[1], num_input) != 1)
 		return (1);
-
 	// valid pairs
 	if (ft_pairscheck(num_input) != 1)
 		return (1);
-	
 	// valid combinations 
 	if (ft_validcombinations(num_input) != 1)
 		return (1);
-	
 	// valid start end (if 1 or 4)
 	if (ft_validcorners(num_input) != 1)
 		return (1);
-
 	// fill grid with known values
 	if (ft_firsfill(grid, num_input) != 1)
 		return (1);
-
+	// solve remaining missing values
+	if (ft_solvegrid(grid, num_input, 0) != 1)
+		return (1);
 	ft_printgrid(grid);
 	return (0);
-
-
 }
