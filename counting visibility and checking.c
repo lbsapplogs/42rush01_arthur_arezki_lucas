@@ -81,3 +81,29 @@ int counting_visible_from_bottom(int grid[4][4], int count, int maxh)
     }
     return count;
 }
+
+int check_visibility(int grid[4][4], int clues[16])
+{
+    int i;
+    int count;
+
+    i = 0;
+    while (i < 4)
+    {
+        count = counting_visible_from_left(grid[i], 0, 0);
+        if (count != clues[i])
+            return 0;
+        count = counting_visible_from_right(grid[i], 0, 0);
+        if (count != clues[i + 4])
+            return 0;
+        count = counting_visible_from_top(grid, 0, 0);
+        if (count != clues[i + 8])
+            return 0;
+        count = counting_visible_from_bottom(grid, 0, 0);
+        if (count != clues[i + 12])
+            return 0;
+        i++;
+    }
+    return 1;
+}
+
