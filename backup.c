@@ -145,6 +145,19 @@ int	ft_validcombinations(int *num_inputs)
 	return (1);
 }
 
+int	ft_validcorners(int *num_input)
+{
+	if ((num_input[0] == 1) != (num_input[8] == 1))
+		return (0);
+	if ((num_input[3] == 1) != (num_input[12] == 1))
+		return (0);
+	if ((num_input[4] == 1) != (num_input[11] == 1))
+		return (0);
+	if ((num_input[7] == 1) != (num_input[15] == 1))
+		return (0);
+	return (1);
+}
+
 void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
 {
 	int	i;
@@ -260,7 +273,11 @@ int	main(int argc, char **argv)
 	// valid combinations 
 	if (ft_validcombinations(num_input) != 1)
 		return (1);
-	 
+	
+	// valid start end (if 1 or 4)
+	if (ft_validcorners(num_input) != 1)
+		return (1);
+
 	// fill grid with known values
 	ft_firsfill(grid, num_input);
 
