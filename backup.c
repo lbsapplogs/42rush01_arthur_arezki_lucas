@@ -178,8 +178,19 @@ void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be p
 
 int	ft_place(int grid[4][4], int r, int c, int value)
 {
+	int	i;
+
 	if (grid[r][c] != 0 && grid[r][c] != value)
 		return (0);
+	i = 0;
+	while (i < 4)
+	{
+		if (i != c && grid[r][i] == value)
+			return (0);
+		if (i != r && grid[i][c] == value)
+			return (0);
+		i++;
+	}
 	grid[r][c] = value;
 	return (1);
 }
