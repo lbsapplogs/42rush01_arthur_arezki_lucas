@@ -160,6 +160,35 @@ void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be p
 	}
 }
 
+void	ft_fill_for1(int grid[4][4], int side, int line)
+{
+	int	row;
+	int	column;
+
+	row = 3 * (side == 1) + line * (side >= 2);
+	column = line * (side < 2) + 3 * (side == 3);
+	grid[row][column] = 4;
+}
+
+void	ft_fill_for4(int grid[4][4], int side, int line)
+{
+	int	distance;
+
+	distance = 0;
+	while (distance < 4)
+	{
+		if (side == 0)
+			grid[distance][line] = distance + 1;
+		else if (side == 1)
+			grid[3 - distance][line] = distance + 1;
+		else if (side == 2)
+			grid[line][distance] = distance + 1;
+		else
+			grid[line][3 - distance] = distance + 1;
+		distance++;
+	}
+}
+
 void	ft_firsfill(int grid[4][4], int *num_input)
 {
 	int	i;
@@ -174,9 +203,9 @@ void	ft_firsfill(int grid[4][4], int *num_input)
 		{
 			k = 4 * i;
 			if (num_input[k + j] == 1)
-				grid[i + 3 * (i == 1)][j + 3 * (i == 4)] = 4;
-			//if (num_input[i] == 4)
-				//eturn;
+				ft_fill_for1(grid, i, j);
+			else if (num_input[k + j] == 4)
+				ft_fill_for4(grid, i, j);
 			j++;
 		}
 		i++;
@@ -207,6 +236,6 @@ int	main(int argc, char **argv[])
 		return (1);
 	 
 	// fill grid with known values
-
+	ft_firsfill(grid, num_input);
 
 }
