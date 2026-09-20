@@ -93,7 +93,7 @@ int	valid_pairs(int a, int b)
 	return (valid_flag);
 }
 
-int	**ft_pairscheck(int *num_input)
+int	ft_pairscheck(int *num_input)
 {
 	int	i;
 	int	j;
@@ -118,6 +118,11 @@ int	**ft_pairscheck(int *num_input)
 	return (valid_flag); 
 }
 
+int	ft_validcombinations(int *num_inputs)
+{
+	
+}
+
 int	main(int argc, char **argv[])
 {
 	int	num_input[16];
@@ -131,8 +136,10 @@ int	main(int argc, char **argv[])
 		return (1);
 
 	// valid pairs
-	// lsdkf
+	if (ft_pairscheck(num_input) != 1)
+		return (1);
 	
-	// valid pairsSo 
+	// valid combinations 
+	 
 	
 }
