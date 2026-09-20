@@ -98,9 +98,8 @@ int	**ft_pairscheck(char *str)
 
 int	main(int argc, char **argv[])
 {
-	int	*num_input;
+	int	num_input[16];
 	
-	num_input = malloc(16 * sizeof(int));
 	// count parameters
 	if (argc != 2)
 		return (1);
