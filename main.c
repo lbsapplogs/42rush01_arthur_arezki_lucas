@@ -6,7 +6,7 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/20 13:29:53 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 13:45:42 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	main(int argc, char **argv[])
 		return (1);
 
 	// valid pairs
-	
+	// lsdkf
 	
 	// valid pairsSo 
 	
