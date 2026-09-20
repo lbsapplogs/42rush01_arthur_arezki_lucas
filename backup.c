@@ -11,49 +11,40 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdlib.h>
 
 int	ft_strlen(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i] != '\0')
+	i = 0;
+	while (str[i] != '\0')
 		i++;
-	return(i);
+	return (i);
 }
 
 int	ft_valid_input(char *str, int *num_input)
 {
-    int i;
+	int	i;
 	int	j;
-	int	len;
 
-    i = 0;
+	if (ft_strlen(str) != 31)
+		return (0);
+	i = 0;
 	j = 0;
-	len = ft_strlen(str);
-	// Check 1: length not 31 (16 digits + 15 spaces)
-	if (len != 31)
-		return(0); // define error output
-    while (str[i] != '\0')
-    {
-        // Check 2: not digit or whitespace
-		if (!((str[i] >= '1' && str[i] <= '4') || str[i] == 32))
-        	return (0); 
-		// Check 3: odd slots not whitespace
-		else if (i % 2 != 0 && str[i] != 32)
-            return (0);
-        // Check 4: even slots NOT digit
-		else if (i % 2 == 0 && !(str[i] >= '1' && str[i] <= '4'))
-			return (0);
-		else if (i % 2 == 0 && (str[i] >= '1' && str[i] <= '4'))
+	while (i < 31)
+	{
+		if (i % 2 == 0)
 		{
+			if (str[i] < '1' || str[i] > '4')
+				return (0);
 			num_input[j] = str[i] - '0';
 			j++;
 		}
+		else if (str[i] != ' ')
+			return (0);
 		i++;
-    }
-    return (1);
+	}
+	return (1);
 }
 
 int	ft_valid_pairs(int a, int b)
@@ -74,9 +65,10 @@ int	ft_valid_pairs(int a, int b)
 	validpairs[3][1] = 2;
 	validpairs[4][0] = 2;
 	validpairs[4][1] = 1;
-	while (i <5)
+	while (i < 5)
 	{
-		if ((validpairs[i][0] == a && validpairs[i][1] == b) || (validpairs[i][0] == b && validpairs[i][1] == a))
+		if ((validpairs[i][0] == a && validpairs[i][1] == b)
+			|| (validpairs[i][0] == b && validpairs[i][1] == a))
 			valid_flag++;
 		i++;
 	}
@@ -88,22 +80,20 @@ int	ft_pairscheck(int *num_input)
 	int	i;
 	int	valid_flag;
 
-	i = 0;// which row/column
+	i = 0;
 	valid_flag = 1;
-	// Check column pairs
 	while (i < 4 && valid_flag == 1)
 	{
 		valid_flag *= ft_valid_pairs(num_input[i], num_input[i + 4]);
-		i++;	
+		i++;
 	}
-	// Check row pairs
 	i += 4;
 	while (i < 12 && valid_flag == 1)
 	{
 		valid_flag *= ft_valid_pairs(num_input[i], num_input[i + 4]);
-		i++;	
+		i++;
 	}
-	return (valid_flag); 
+	return (valid_flag);
 }
 
 int	ft_validcombinations(int *num_inputs)
@@ -111,7 +101,7 @@ int	ft_validcombinations(int *num_inputs)
 	int	i;
 	int	j;
 	int	counter[5];
-	
+
 	j = 0;
 	while (j < 16)
 	{
@@ -125,7 +115,8 @@ int	ft_validcombinations(int *num_inputs)
 			counter[num_inputs[j + i]] += 1;
 			i++;
 		}
-		if ((counter[1] > 1 || counter[2] > 3 || counter [3] > 2 || counter[4] > 1))
+		if (counter[1] > 1 || counter[2] > 3
+			|| counter[3] > 2 || counter[4] > 1)
 			return (0);
 		j += 4;
 	}
@@ -145,7 +136,7 @@ int	ft_validcorners(int *num_input)
 	return (1);
 }
 
-void	ft_emptygrid(int grid[4][4]) 
+void	ft_emptygrid(int grid[4][4])
 {
 	int	i;
 	int	j;
@@ -241,6 +232,17 @@ int	ft_firsfill(int grid[4][4], int *num_input)
 	return (1);
 }
 
+int	ft_height_at(int grid[4][4], int side, int item, int dist)
+{
+	if (side == 0)
+		return (grid[dist][item]);
+	if (side == 1)
+		return (grid[3 - dist][item]);
+	if (side == 2)
+		return (grid[item][dist]);
+	return (grid[item][3 - dist]);
+}
+
 int	ft_countvisible(int grid[4][4], int side, int item)
 {
 	int	dist;
@@ -253,14 +255,7 @@ int	ft_countvisible(int grid[4][4], int side, int item)
 	visible = 0;
 	while (dist < 4)
 	{
-		if (side == 0)
-			value = grid[dist][item];
-		else if (side == 1)
-			value = grid[3 - dist][item];
-		else if (side == 2)
-			value = grid[item][dist];
-		else
-			value = grid[item][3 - dist];
+		value = ft_height_at(grid, side, item, dist);
 		if (value > tallest)
 		{
 			tallest = value;
@@ -341,33 +336,32 @@ void	ft_printgrid(int grid[4][4])
 	}
 }
 
+int	ft_error(void)
+{
+	write(1, "Error\n", 6);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	int	num_input[16];
 	int	grid[4][4];
-	
-	ft_emptygrid(grid); 
-	// count parameters
+
 	if (argc != 2)
-		return (1);
-	// valid parameters
+		return (ft_error());
+	ft_emptygrid(grid);
 	if (ft_valid_input(argv[1], num_input) != 1)
-		return (1);
-	// valid pairs
+		return (ft_error());
 	if (ft_pairscheck(num_input) != 1)
-		return (1);
-	// valid combinations 
+		return (ft_error());
 	if (ft_validcombinations(num_input) != 1)
-		return (1);
-	// valid start end (if 1 or 4)
+		return (ft_error());
 	if (ft_validcorners(num_input) != 1)
-		return (1);
-	// fill grid with known values
+		return (ft_error());
 	if (ft_firsfill(grid, num_input) != 1)
-		return (1);
-	// solve remaining missing values
+		return (ft_error());
 	if (ft_solvegrid(grid, num_input, 0) != 1)
-		return (1);
+		return (ft_error());
 	ft_printgrid(grid);
 	return (0);
 }
