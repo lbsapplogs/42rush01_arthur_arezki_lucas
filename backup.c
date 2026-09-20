@@ -84,7 +84,7 @@ int	valid_pairs(int a, int b)
 	validpairs[3][1] = 2;
 	validpairs[4][0] = 2;
 	validpairs[4][1] = 1;
-	while (i <=5)
+	while (i <5)
 	{
 		if ((validpairs[i][0] == a && validpairs[i][1] == b) || (validpairs[i][0] == b && validpairs[i][1] == a))
 			valid_flag++;
@@ -96,23 +96,21 @@ int	valid_pairs(int a, int b)
 int	ft_pairscheck(int *num_input)
 {
 	int	i;
-	int	j;
 	int	valid_flag;
 
 	i = 0;// which row/column
-	j = i + 4;// where in the row/column
 	valid_flag = 1;
 	// Check column pairs
 	while (i < 4 && valid_flag == 1)
 	{
-		valid_flag *= valid_pairs(num_input[i], num_input[j]);
+		valid_flag *= valid_pairs(num_input[i], num_input[i + 4]);
 		i++;	
 	}
 	// Check row pairs
 	i += 4;
 	while (i < 12 && valid_flag == 1)
 	{
-		valid_flag *= valid_pairs(num_input[i], num_input[j]);
+		valid_flag *= valid_pairs(num_input[i], num_input[i + 4]);
 		i++;	
 	}
 	return (valid_flag); 
@@ -124,7 +122,7 @@ int	ft_validcombinations(int *num_inputs)
 	int	j;
 	int	counter[5];
 	
-	j = 0 + i;
+	j = 0;
 	while (j < 16)
 	{
 		i = 0;
@@ -134,19 +132,18 @@ int	ft_validcombinations(int *num_inputs)
 		counter[4] = 0;
 		while (i < 4)
 		{
-			counter[num_inputs[j]] += 1;
+			counter[num_inputs[j + i]] += 1;
 			i++;
 		}
-		if (!(counter[1] > 1 || counter[2] > 3 || counter [3] > 2 || counter[4] > 1))
+		if ((counter[1] > 1 || counter[2] > 3 || counter [3] > 2 || counter[4] > 1))
 			return (0);
-		j++;
+		j += 4;
 	}
 	return (1);
 }
 
-int	**ft_emptygrid(void) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
+void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
 {
-	int	grid[4][4];
 	int	i;
 	int	j;
 
@@ -161,42 +158,38 @@ int	**ft_emptygrid(void) // Can I create a grid like this, will it be preserved 
 		}
 		i++;
 	}
-	return (grid);
 }
 
-void	ft_fillrow(int *row);
-
-void	ft_firstfill(int *num_inputs, int **grid)
+void	ft_firsfill(int grid[4][4], int *num_input)
 {
 	int	i;
 	int	j;
 	int	k;
-	int	l;
-	
-	j = 0;
-	while (j < 16)
+
+	i = 0;
+	while (i < 4)
 	{
-		i = 0;
-		k = j + i;
-		while (i < 4)
+		j = 0;
+		while (j < 4)
 		{
-			if (num_inputs[k] == 4)
-
-				
-
-			
-			i++;
+			k = 4 * i;
+			if (num_input[k + j] == 1)
+				grid[i + 3 * (i == 1)][j + 3 * (i == 4)] = 4;
+			//if (num_input[i] == 4)
+				//eturn;
+			j++;
 		}
-		j++;
-	}
+		i++;
+	}	
 }
 
 int	main(int argc, char **argv[])
 {
 	int	num_input[16];
-	int	**grid;
+	int	grid[4][4];
 	
-	grid = ft_emptygrid(); // **********do I need to malloc ???*************
+	
+	ft_emptygrid(grid); // **********do I need to malloc ???*************
 	// count parameters
 	if (argc != 2)
 		return (1);
