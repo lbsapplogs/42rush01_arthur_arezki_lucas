@@ -145,7 +145,7 @@ int	ft_validcorners(int *num_input)
 	return (1);
 }
 
-void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
+void	ft_emptygrid(int grid[4][4]) 
 {
 	int	i;
 	int	j;
