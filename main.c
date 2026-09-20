@@ -112,6 +112,6 @@ int	main(int argc, char **argv[])
 	// from string to int array
 	
 	
-	// valid pairs
+	// valid pairsSo 
 	
 }
