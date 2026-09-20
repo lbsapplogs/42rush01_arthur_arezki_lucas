@@ -6,7 +6,7 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/19 21:33:49 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 13:21:49 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,14 @@ int	ft_valid_input(char *str, int *num_input)
     return (1);
 }
 
-int	valid_pairs(int *pair)
+int	valid_pairs(int a, int b)
 {
+	int	i;
 	int	validpairs[5][2];
+	int	valid_flag;
 
+	i = 0;
+	valid_flag = 0;
 	validpairs[0][0] = 4;
 	validpairs[0][1] = 1;
 	validpairs[1][0] = 3;
@@ -68,32 +72,38 @@ int	valid_pairs(int *pair)
 	validpairs[3][1] = 2;
 	validpairs[4][0] = 2;
 	validpairs[4][1] = 1;
+	while (i <=5)
+	{
+		if ((validpairs[i][0] == a && validpairs[i][1] == b) || (validpairs[i][0] == b && validpairs[i][1] == a))
+			valid_flag++;
+		i++;
+	}
+	return (valid_flag);
 }
-int	**ft_pairscheck(char *str)
+
+int	**ft_pairscheck(int *num_input)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	pos1;
-	int	pos2;
-	int	allpairs[16];
+	int	valid_flag;
 
-
-
-	// Step 1: fill array
 	i = 0;// which row/column
-	j = 0;// where in the row/column
-	k = 0;// where in allpairs
-	pos1 = i + j;
-	pos2 = i + 4 + j;
-	while (i < 4 && j < 4)
+	j = i + 4;// where in the row/column
+	valid_flag = 1;
+	// Check column pairs
+	while (i < 4 && valid_flag == 1)
 	{
-		while (i < 2 && j < 4)	
-		{
-			allpairs[pos]str[pos1]
+		valid_flag *= valid_pairs(num_input[i], num_input[j]);
+		i++;	
 	}
-
-	// How do I check the pairs?? 
+	// Check row pairs
+	i += 4;
+	while (i < 12 && valid_flag == 1)
+	{
+		valid_flag *= valid_pairs(num_input[i], num_input[j]);
+		i++;	
+	}
+	return (valid_flag); 
 }
 
 int	main(int argc, char **argv[])
