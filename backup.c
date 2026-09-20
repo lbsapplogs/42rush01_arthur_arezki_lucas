@@ -145,6 +145,19 @@ int	ft_validcombinations(int *num_inputs)
 	return (1);
 }
 
+int	ft_validcorners(int *num_input)
+{
+	if ((num_input[0] == 1) != (num_input[8] == 1))
+		return (0);
+	if ((num_input[3] == 1) != (num_input[12] == 1))
+		return (0);
+	if ((num_input[4] == 1) != (num_input[11] == 1))
+		return (0);
+	if ((num_input[7] == 1) != (num_input[15] == 1))
+		return (0);
+	return (1);
+}
+
 void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be preserved in memory or do I need to malloc??
 {
 	int	i;
@@ -163,36 +176,59 @@ void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be p
 	}
 }
 
-void	ft_fill_for1(int grid[4][4], int side, int item)
+int	ft_place(int grid[4][4], int r, int c, int value)
+{
+	int	i;
+
+	if (grid[r][c] != 0 && grid[r][c] != value)
+		return (0);
+	i = 0;
+	while (i < 4)
+	{
+		if (i != c && grid[r][i] == value)
+			return (0);
+		if (i != r && grid[i][c] == value)
+			return (0);
+		i++;
+	}
+	grid[r][c] = value;
+	return (1);
+}
+
+int	ft_fill_for1(int grid[4][4], int side, int item)
 {
 	int	r;
 	int	c;
 
 	r = 3 * (side == 1) + item * (side >= 2);
 	c = item * (side < 2) + 3 * (side == 3);
-	grid[r][c] = 4;
+	return (ft_place(grid, r, c, 4));
 }
 
-void	ft_fill_for4(int grid[4][4], int side, int item)
+int	ft_fill_for4(int grid[4][4], int side, int item)
 {
 	int	dist;
+	int	placed;
 
 	dist = 0;
 	while (dist < 4)
 	{
 		if (side == 0)
-			grid[dist][item] = dist + 1;
+			placed = ft_place(grid, dist, item, dist + 1);
 		else if (side == 1)
-			grid[3 - dist][item] = dist + 1;
+			placed = ft_place(grid, 3 - dist, item, dist + 1);
 		else if (side == 2)
-			grid[item][dist] = dist + 1;
+			placed = ft_place(grid, item, dist, dist + 1);
 		else
-			grid[item][3 - dist] = dist + 1;
+			placed = ft_place(grid, item, 3 - dist, dist + 1);
+		if (placed != 1)
+			return (0);
 		dist++;
 	}
+	return (1);
 }
 
-void	ft_firsfill(int grid[4][4], int *num_input)
+int	ft_firsfill(int grid[4][4], int *num_input)
 {
 	int	i;
 	int	j;
@@ -205,14 +241,17 @@ void	ft_firsfill(int grid[4][4], int *num_input)
 		while (j < 4)
 		{
 			k = 4 * i;
-			if (num_input[k + j] == 1)
-				ft_fill_for1(grid, i, j);
-			else if (num_input[k + j] == 4)
-				ft_fill_for4(grid, i, j);
+			if (num_input[k + j] == 1
+				&& ft_fill_for1(grid, i, j) != 1)
+				return (0);
+			if (num_input[k + j] == 4
+				&& ft_fill_for4(grid, i, j) != 1)
+				return (0);
 			j++;
 		}
 		i++;
-	}	
+	}
+	return (1);
 }
 
 void	ft_printgrid(int grid[4][4])
@@ -260,9 +299,14 @@ int	main(int argc, char **argv)
 	// valid combinations 
 	if (ft_validcombinations(num_input) != 1)
 		return (1);
-	 
+	
+	// valid start end (if 1 or 4)
+	if (ft_validcorners(num_input) != 1)
+		return (1);
+
 	// fill grid with known values
-	ft_firsfill(grid, num_input);
+	if (ft_firsfill(grid, num_input) != 1)
+		return (1);
 
 	ft_printgrid(grid);
 	return (0);
