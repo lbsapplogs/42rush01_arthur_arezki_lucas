@@ -6,10 +6,22 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/20 13:21:49 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 13:28:47 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+void	ft_putstr(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] != '\0')
+    {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
 
 int	ft_strlen(char *str)
 {
@@ -118,7 +130,7 @@ int	main(int argc, char **argv[])
 	if (ft_valid_input(argv[1], num_input) != 1)
 		return (1);
 
-	// from string to int array
+	// valid pairs
 	
 	
 	// valid pairsSo 
