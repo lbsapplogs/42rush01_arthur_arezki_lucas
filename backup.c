@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void	ft_putstr(char *str)
 {
@@ -160,32 +163,32 @@ void	ft_emptygrid(int grid[4][4]) // Can I create a grid like this, will it be p
 	}
 }
 
-void	ft_fill_for1(int grid[4][4], int side, int line)
+void	ft_fill_for1(int grid[4][4], int side, int item)
 {
-	int	row;
-	int	column;
+	int	r;
+	int	c;
 
-	row = 3 * (side == 1) + line * (side >= 2);
-	column = line * (side < 2) + 3 * (side == 3);
-	grid[row][column] = 4;
+	r = 3 * (side == 1) + item * (side >= 2);
+	c = item * (side < 2) + 3 * (side == 3);
+	grid[r][c] = 4;
 }
 
-void	ft_fill_for4(int grid[4][4], int side, int line)
+void	ft_fill_for4(int grid[4][4], int side, int item)
 {
-	int	distance;
+	int	dist;
 
-	distance = 0;
-	while (distance < 4)
+	dist = 0;
+	while (dist < 4)
 	{
 		if (side == 0)
-			grid[distance][line] = distance + 1;
+			grid[dist][item] = dist + 1;
 		else if (side == 1)
-			grid[3 - distance][line] = distance + 1;
+			grid[3 - dist][item] = dist + 1;
 		else if (side == 2)
-			grid[line][distance] = distance + 1;
+			grid[item][dist] = dist + 1;
 		else
-			grid[line][3 - distance] = distance + 1;
-		distance++;
+			grid[item][3 - dist] = dist + 1;
+		dist++;
 	}
 }
 
@@ -212,7 +215,30 @@ void	ft_firsfill(int grid[4][4], int *num_input)
 	}	
 }
 
-int	main(int argc, char **argv[])
+void	ft_printgrid(int grid[4][4])
+{
+	int		r;
+	int		c;
+	char	num;
+
+	r = 0;
+	while (r < 4)
+	{
+		c = 0;
+		while (c < 4)
+		{
+			num = grid[r][c] + '0';
+			write(1, &num, 1);
+			if (c < 3)
+				write(1, " ", 1);
+			c++;
+		}
+		write(1, "\n", 1);
+		r++;
+	}
+}
+
+int	main(int argc, char **argv)
 {
 	int	num_input[16];
 	int	grid[4][4];
@@ -237,5 +263,9 @@ int	main(int argc, char **argv[])
 	 
 	// fill grid with known values
 	ft_firsfill(grid, num_input);
+
+	ft_printgrid(grid);
+	return (0);
+
 
 }
