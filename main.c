@@ -6,7 +6,7 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/20 13:45:42 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 14:27:12 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,28 @@ int	ft_pairscheck(int *num_input)
 
 int	ft_validcombinations(int *num_inputs)
 {
+	int	i;
+	int	j;
+	int	counter[5];
 	
+	j = 0 + i;
+	while (j < 16)
+	{
+		i = 0;
+		counter[1] = 0;
+		counter[2] = 0;
+		counter[3] = 0;
+		counter[4] = 0;
+		while (i < 4)
+		{
+			counter[num_inputs[j]] += 1;
+			i++;
+		}
+		if (!(counter[1] > 1 || counter[2] > 3 || counter [3] > 2 || counter[4] > 1))
+			return (0);
+		j++;
+	}
+	return (1);
 }
 
 int	main(int argc, char **argv[])
