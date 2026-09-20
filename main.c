@@ -6,7 +6,7 @@
 /*   By: luborrer <luborrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 18:48:10 by luborrer          #+#    #+#             */
-/*   Updated: 2026/09/20 14:58:13 by luborrer         ###   ########.fr       */
+/*   Updated: 2026/09/20 15:08:19 by luborrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int	**ft_emptygrid(void) // Can I create a grid like this, will it be preserved 
 	return (grid);
 }
 
-void	ft_fillrow(int *row)
+void	ft_fillrow(int *row);
 
 void	ft_firstfill(int *num_inputs, int **grid)
 {
